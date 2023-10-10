@@ -60,6 +60,9 @@ public class HomeActivity extends AppCompatActivity {
         initializeSyncService();
 
         createSyncAlarm();
+
+        // Nos inventamos un error falso para poder verlo en Crashlytics(Consola de Firebase)
+        //throw new RuntimeException("Este es mi primer error en Crashlytics!");
     }
 
     private void setupToolbar() {
