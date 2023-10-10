@@ -15,7 +15,8 @@
         <activity android:name=".AboutMeActivity" />
         <activity android:name=".DetalleLibroActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".SplashScreenActivity">
+        <activity android:name=".SplashScreenActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
