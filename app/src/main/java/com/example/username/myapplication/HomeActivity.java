@@ -60,6 +60,9 @@ public class HomeActivity extends AppCompatActivity {
         initializeSyncService();
 
         createSyncAlarm();
+
+        // Nos inventamos un error falso para poder verlo en Crashlytics(Consola de Firebase)
+        //throw new RuntimeException("Este es mi primer error en Crashlytics!");
     }
 
     private void setupToolbar() {
@@ -182,11 +185,11 @@ public class HomeActivity extends AppCompatActivity {
 
     private void createSyncAlarm() {
         Intent intent = new Intent(this, SyncDataReceiver.class);
-        boolean alarmExists = PendingIntent.getBroadcast(this, 0, intent, FLAG_NO_CREATE) != null;
+        boolean alarmExists = PendingIntent.getBroadcast(this, 0, intent, FLAG_NO_CREATE | PendingIntent.FLAG_IMMUTABLE) != null;
 
         if (!alarmExists) {
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
             calendar.set(Calendar.HOUR_OF_DAY, 8);

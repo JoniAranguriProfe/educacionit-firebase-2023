@@ -1,37 +1,26 @@
 {
   "project_info": {
-    "project_number": "216452078979",
-    "firebase_url": "https://libros-firebase-example.firebaseio.com",
-    "project_id": "libros-firebase-example",
-    "storage_bucket": "libros-firebase-example.appspot.com"
+    "project_number": "846532820984",
+    "project_id": "fir-libros-1bf29",
+    "storage_bucket": "fir-libros-1bf29.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:216452078979:android:4b9b8a7f0d49dafccc6ab6",
+        "mobilesdk_app_id": "1:846532820984:android:3ef66abcd1ac48ffc5600d",
         "android_client_info": {
           "package_name": "com.example.username.myapplication"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "216452078979-08p0nnao6u9dr687qbq1lcbutu44qlko.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBOEUhv76jYmCEq4PFRqiq9GsB-7Ww0PP8"
+          "current_key": "AIzaSyBb481fRmbkmi4JX12xm19WyWYP6mycW5A"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "216452078979-08p0nnao6u9dr687qbq1lcbutu44qlko.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
