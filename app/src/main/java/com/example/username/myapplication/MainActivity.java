@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
 
     private FirebaseAuth.AuthStateListener mAuthStateListner;
+    private ActivityResultLauncher<Intent> signIgnLauncher;
+    private Intent signInIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         mAuthStateListner = firebaseAuth -> {
             final FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user == null) {
-                launchLoginScreen();
+                signIgnLauncher.launch(signInIntent);
                 return;
             }
             guardarSharedPref(user.getDisplayName());
@@ -45,19 +48,17 @@ public class MainActivity extends AppCompatActivity {
             finish();
         };
 
-
-        launchLoginScreen();
+        registerLoginScreen();
     }
 
-    private void launchLoginScreen() {
-        Intent signInIntent = AuthUI.getInstance()
+    private void registerLoginScreen() {
+       signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
                 .setLogo(R.drawable.splash_screen).setTheme(R.style.AppTheme)
                 .build();
-
-        registerForActivityResult(new FirebaseAuthUIActivityResultContract(), (result) -> {
-        }).launch(signInIntent);
+       signIgnLauncher = registerForActivityResult(new FirebaseAuthUIActivityResultContract(), (result) -> {
+        });
     }
 
     @Override
