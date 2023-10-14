@@ -1,7 +1,11 @@
 package com.example.username.myapplication;
 
+import static android.Manifest.permission.POST_NOTIFICATIONS;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -74,6 +80,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
         cargarSharedPref();
+        askForNotificationsPermissions();
+    }
+
+    private void askForNotificationsPermissions() {
+        if (Build.VERSION.SDK_INT >= 33) {
+            if (ContextCompat.checkSelfPermission(MainActivity.this, POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{POST_NOTIFICATIONS}, 101);
+            }
+        }
     }
 
     private void mostrarInProgress() {
