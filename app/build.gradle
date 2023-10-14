@@ -42,7 +42,10 @@ dependencies {
     // Crashlytics
     implementation 'com.google.firebase:firebase-crashlytics'
     // Performance
-    implementation("com.google.firebase:firebase-perf")
+    implementation 'com.google.firebase:firebase-perf'
+
+    // Remote Config
+    implementation 'com.google.firebase:firebase-config'
 
     //Multidex
     implementation 'androidx.multidex:multidex:2.0.1'
