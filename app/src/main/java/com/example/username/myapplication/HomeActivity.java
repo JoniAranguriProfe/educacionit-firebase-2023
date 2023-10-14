@@ -21,8 +21,12 @@ import androidx.core.util.Pair;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -42,6 +46,7 @@ public class HomeActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private FloatingActionButton fabAgregarLibro;
     final static String LIBRO = "LIBRO";
+    private Boolean isAboutMeEnabled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +65,28 @@ public class HomeActivity extends AppCompatActivity {
         initializeSyncService();
 
         createSyncAlarm();
+        fetchRemoteConfigAboutMe();
 
         // Nos inventamos un error falso para poder verlo en Crashlytics(Consola de Firebase)
         //throw new RuntimeException("Este es mi primer error en Crashlytics!");
+    }
+
+    private void fetchRemoteConfigAboutMe() {
+        FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setMinimumFetchIntervalInSeconds(1)
+                .build();
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
+
+        mFirebaseRemoteConfig.fetchAndActivate()
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        isAboutMeEnabled = task.getResult();
+
+                    } else {
+                        isAboutMeEnabled = false;
+                    }
+                });
     }
 
     private void setupToolbar() {
@@ -97,9 +121,17 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void irAAboutMe() {
+        if (!aboutMeIsEnabled()) {
+            Toast.makeText(this, "Funcionalidad no disponible", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(this, AboutMeActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    private boolean aboutMeIsEnabled() {
+        return isAboutMeEnabled;
     }
 
     private void cerrarSesion() {
